@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+ <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <title>Cypress WICED Device Config</title>
+    <style  type="text/css"><!-- .normal { background-color: #ffffff; } .highlight { background-color: #8f0000;  } --></style>
+
+<script language=javascript>
+function redirect(){
+    var ip = location.host;
+      deviceTypeId = document.getElementById("devTypeId").value;
+    secretProfileId = document.getElementById("secProfileId").value;
+    client_Id = document.getElementById("clientId").value;
+    client_secrets = document.getElementById("clientSecret").value;
+      device_serial_number = document.getElementById("devSerialNum").value;
+      var ip = location.host;
+    redirect_uri= "http://"+ip+"/authresponse"; 
+        localStorage.setItem('secProfileId',deviceTypeId);
+        localStorage.setItem('clientId', client_Id);
+        localStorage.setItem('clientSecret', client_secrets);
+        
+        url ="https://www.amazon.com/ap/oa?scope=alexa:all&client_id="+client_Id+"&scope_data={\"alexa:all\":{\"productInstanceAttributes\":{\"deviceSerialNumber\":\""+device_serial_number+"\"},\"productID\":\""+deviceTypeId+"\"}}&redirect_uri="+redirect_uri+"&response_type=code";
+    window.location.href=url;
+    
+}
+</script>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+ </head>
+  <body style="font-family:verdana;" >
+    <table border='0' cellpadding='0' cellspacing='0' width="98%">
+      <tr style="height:20px"><td>&nbsp;</td></tr>
+      <tr style="border-collapse: collapse; padding: 0;">
+        <td style="width:20px"></td>
+        <td style="width:152px"><img src="../../images/cypresslogo.png" alt="Cypress Logo" /></td>
+        WICED&trade;AVS authorization configuration
+        </td>
+       
+      </tr>
+      <tr><td>&nbsp;</td></tr>
+    </table>
+
+
+ <noscript><h2>Javascript is required for this page to work correctly.</h2></noscript>
+    <h3 style="text-align:center;">Device Type Info</h3>
+    <form id="settings_form" action="">
+      <table style="margin-left:auto;margin-right:auto;" >
+            <tbody>
+            <tr><td class="nameid">Device Type ID</td><td><input type="text" class="ctrlid" id="devTypeId" size="35"/></td></tr>
+             <tr><td class="nameid">Device serial number</td><td><input type="text" class="ctrlid" id="devSerialNum" size="35" value="1212"/></td></tr>
+            
+       </table>
+       <table style="margin-left:auto;margin-right:auto;" >
+         <h3 style="text-align:center;">Security Profile</h3>    
+             <tr><td class="nameid">Security Profile ID</td><td><input type="text"  class="ctrlid"  id="secProfileId" size="100"/></td></tr>
+              <tr><td class="nameid">Client ID </td><td><input type="text"  class="ctrlid" id="clientId" size="100"/></td></tr>
+               <tr><td class="nameid">Client Secret </td><td><input type="text"  class="ctrlid" id="clientSecret"  size="105"/></td></tr>
+            <tr><td colspan="2"><input type="button" value="Submit" onclick="redirect();" style="float:right" /><div align="center" id="config_res"></div></td></tr>
+            
+              </tbody>
+                  
+      </table>
+      </form>
+      <table style="margin-left:auto;margin-right:auto;" >  
+      <tr>
+      <td><h6><a href="https://developer.amazon.com/public/solutions/alexa/alexa-voice-service/content/avs-api-overview">AVS API overview</a><h6></td>
+      </tr>
+      <tr><td>
+      1.Click here to create an <a href ="https://developer.amazon.com/login.html">AVS account </a>
+      </td></tr>
+      <tr><td>
+      2. Make a note of the IP address of the WICED device and add it to the list of Allowed origins and allowed return URL's( append the /authresponse to the IP address)
+      </td></tr>
+      <tr><td>
+      <img src ="/img0.png"/>
+      </td></tr>
+      <tr><td>
+      3. Details for the Device Type ID can be found under Device Type Info tab
+      </td></tr>
+      <tr><td>
+      <img src ="/img1.png"/>
+      </td></tr>
+      <tr><td>
+      4.Details regarding Security can be found under Security PRofile tab
+      </td></tr>
+      <tr><td>
+      <img src ="/img1a.png"/>
+      </td></tr>
+   
+ </table>
+ </body>
+  
+</html>

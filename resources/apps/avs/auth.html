@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script language=javascript>
+
+var parseQueryString = function(url) {
+  var urlParams = {};
+  url.replace(
+    new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+    function($0, $1, $2, $3) {
+      urlParams[$1] = $3;
+    }
+  );
+  
+  return urlParams;
+}
+
+function redirect(){
+     var sec_profile_id = localStorage.getItem('secProfileId');
+     var client_id = localStorage.getItem('clientId');
+     var client_secret = localStorage.getItem('clientSecret');
+     
+     var uri =document.location.href;
+     console.log(uri);
+     var result = parseQueryString(uri ); 
+     console.log(result.code);
+     
+     var callback = location.host;
+     console.log(callback);
+     
+     url = "https://api.amazon.com/auth/o2/token"
+     var xhttp = new XMLHttpRequest();
+     xhttp.open("POST", url, false);
+     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+     params= "grant_type=authorization_code&code="+result.code+"&client_id="+client_id+"&client_secret="+client_secret+"&redirect_uri=http://"+callback+"/authresponse";
+     console.log(params);
+     xhttp.send(params);
+     var response = JSON.parse(xhttp.responseText);
+     document.getElementById("token").innerText = xhttp.responseText;
+}
+
+function download(){
+     var element = document.createElement('a');
+     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(document.getElementById("token").innerText));
+     element.setAttribute('download', "token.txt");
+     element.style.display = 'none';
+     document.body.appendChild(element);
+     element.click();
+     document.body.removeChild(element);
+}
+</script>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+ </head>
+  <body style="font-family:verdana;" onload="redirect()">
+    <table border='0' cellpadding='0' cellspacing='0' width="98%">
+      <tr style="height:20px"><td>&nbsp;</td></tr>
+      <tr style="border-collapse: collapse; padding: 0;">
+        <td style="width:20px"></td>
+        <td style="width:152px"><img src="../../images/cypresslogo.png" alt="Cypress Logo" /></td>
+        <td style="vertical-align:middle; text-align:center; font: bold 25px/100% Verdana, Arial, Helvetica, sans-serif;background-image:url('../../images/cypresslogo_line.png');">
+        WICED&trade;AVS authorization configuration
+        </td>
+       </tr>
+       <tr style="border-collapse: collapse; padding: 0;"> 
+          <td><h3> TOKEN GENERATED </h3></td>
+        <td><p id="token"></p></td>
+       </tr>
+          <td>&nbsp;</td>
+          <tr style="border-collapse: collapse; padding: 0;"> 
+          <td colspan="2"><input type="button" value="Download Token" onclick="download();" style="float:right" /><div align="center" id="config_res"></div></td>
+        </tr>
+      
+    </table>
+
+</body>
+</html>
